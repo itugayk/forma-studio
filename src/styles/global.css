@@ -118,7 +118,7 @@
     font-family: var(--font-display);
     font-weight: 900;
     text-transform: uppercase;
-    line-height: 0.84;
+    line-height: 0.9;
     letter-spacing: -0.025em;
     font-size: clamp(3rem, 13vw, 13rem);
   }
@@ -139,7 +139,7 @@
     font-family: var(--font-display);
     text-transform: uppercase;
     font-weight: 900;
-    line-height: 0.86;
+    line-height: 0.9;
     letter-spacing: -0.025em;
     font-size: clamp(3.5rem, 15vw, 12rem);
   }
@@ -173,9 +173,17 @@
   }
 
   /* line/word split reveal */
+  /* Satır maskesi: overflow:hidden reveal için gerekli ama sıkı line-height'ta
+     büyük display gliflerinin üst (Â/İ/Ü diakritik) ve alt (Ç/Ş sedil) kısımlarını
+     kırpıyordu. Dikey padding ile kırpma alanını genişletip negatif margin ile
+     yerleşimi koruyoruz. */
   .line-mask {
     overflow: hidden;
     display: block;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    margin-top: -0.16em;
+    margin-bottom: -0.14em;
   }
   .line-inner {
     display: block;
@@ -193,6 +201,11 @@
   z-index: 9999;
   pointer-events: none;
   mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.cursor-root.is-active {
+  opacity: 1;
 }
 .cursor-dot {
   position: fixed;

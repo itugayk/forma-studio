@@ -1,4 +1,5 @@
 ---
+const { theme = 'dark' } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const links = [
   { href: '/projeler', label: 'Projeler' },
@@ -10,7 +11,7 @@ const links = [
 const isActive = (href) => path === href || path.startsWith(href + '/');
 ---
 
-<header class="nav" data-nav>
+<header class:list={['nav', `nav--${theme}`]} data-nav>
   <div class="nav-inner u-container">
     <a class="nav-logo" href="/" aria-label="Forma Studio ana sayfa">
       Forma<span>Studio</span>
@@ -60,8 +61,26 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
     inset: 0 0 auto 0;
     z-index: 100;
     padding-block: clamp(1rem, 2.2vw, 1.6rem);
-    mix-blend-mode: difference;
-    transition: padding 0.4s var(--ease-out-expo);
+    --nav-fg: var(--color-ink);
+    color: var(--nav-fg);
+    border-bottom: 1px solid transparent;
+    transition: padding 0.4s var(--ease-out-expo),
+      background-color 0.4s var(--ease-out-expo),
+      border-color 0.4s var(--ease-out-expo),
+      box-shadow 0.4s var(--ease-out-expo);
+  }
+  /* açık zeminli sayfalar: koyu menü (varsayılan). Koyu hero (ana sayfa): beyaz menü */
+  .nav--light { --nav-fg: var(--color-paper); }
+  .nav--dark { --nav-fg: var(--color-ink); }
+  /* sayfa kaydırılınca: katı açık bar + koyu metin (her iki temada da) */
+  .nav.is-scrolled {
+    --nav-fg: var(--color-ink);
+    background: rgba(250, 248, 245, 0.92);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom-color: rgba(13, 13, 12, 0.1);
+    box-shadow: 0 10px 40px -28px rgba(13, 13, 12, 0.4);
+    padding-block: clamp(0.7rem, 1.5vw, 1rem);
   }
   .nav-inner {
     display: flex;
@@ -75,8 +94,9 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
     font-size: 1.05rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--nav-fg);
     line-height: 1;
+    transition: color 0.4s var(--ease-out-expo);
   }
   .nav-logo span {
     font-weight: 300;
@@ -97,9 +117,10 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--nav-fg);
     position: relative;
     padding-block: 0.2rem;
+    transition: color 0.4s var(--ease-out-expo);
   }
   .nav-link::after {
     content: '';
@@ -108,7 +129,7 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
     bottom: 0;
     height: 1px;
     width: 100%;
-    background: #fff;
+    background: currentColor;
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.45s var(--ease-out-expo);
@@ -122,13 +143,14 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
     gap: 0.6rem;
     background: none;
     border: none;
-    color: #fff;
+    color: var(--nav-fg);
     font-family: var(--font-body);
     font-size: 0.78rem;
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     padding: 0;
+    transition: color 0.4s var(--ease-out-expo);
   }
   .nav-toggle__bars {
     display: inline-flex;
@@ -139,7 +161,7 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
   .nav-toggle__bars i {
     height: 1.5px;
     width: 100%;
-    background: #fff;
+    background: currentColor;
     transition: transform 0.4s var(--ease-out-expo), opacity 0.3s;
   }
 
@@ -188,6 +210,14 @@ const isActive = (href) => path === href || path.startsWith(href + '/');
   }
   .nav-overlay__foot a:hover { color: var(--color-paper); }
 
+  /* menü açıkken nav, koyu overlay üstünde → beyaz, şeffaf */
+  body.nav-open .nav {
+    --nav-fg: var(--color-paper);
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
   body.nav-open .nav-toggle__bars i:first-child { transform: translateY(3.25px) rotate(45deg); }
   body.nav-open .nav-toggle__bars i:last-child { transform: translateY(-3.25px) rotate(-45deg); }
 </style>

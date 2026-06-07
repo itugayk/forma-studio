@@ -9,6 +9,8 @@ const {
   description = 'Forma Studio; konut, ticari ve iç mekan projelerinde minimalist, sanatsal ve insan ölçekli mimarlık üreten bir tasarım ofisidir.',
   image = '/images/p-01.jpg',
   noindex = false,
+  // 'light' = koyu hero üstünde beyaz menü; 'dark' = açık zeminde koyu menü
+  navTheme = 'dark',
 } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://mimarlik.demo.dijifa.com';
@@ -86,7 +88,7 @@ const jsonLd = {
       <span class="page-transition__mark">FORMA</span>
     </div>
 
-    <Nav />
+    <Nav theme={navTheme} />
     <main id="main">
       <slot />
     </main>

@@ -21,14 +21,17 @@ const finePointer = window.matchMedia('(pointer: fine)').matches;
 
 let lenis = null;
 let pageCtx = null; // her sayfanın gsap.context'i
+let cursorActive = false; // özel imleç gerçekten devreye girdi mi?
 
 /* ----------------------------------------------------------
    <html> sınıfları — swap her seferinde sıfırladığı için tekrar uygula
+   not: 'has-cursor' (native imleci gizler) yalnızca özel imleç
+   aktifleştikten SONRA eklenir → asla "imleçsiz" durum oluşmaz.
 ---------------------------------------------------------- */
 function ensureHtmlClasses() {
   const html = document.documentElement;
   if (lenis) html.classList.add('lenis', 'lenis-smooth');
-  if (finePointer && !reduceMotion) html.classList.add('has-cursor');
+  if (cursorActive) html.classList.add('has-cursor');
 }
 
 /* ----------------------------------------------------------
@@ -75,8 +78,6 @@ function setupCursor() {
       '<div class="cursor-ring"><span class="cursor-label"></span></div>';
     document.body.appendChild(root);
   }
-  gsap.set(root, { autoAlpha: 0 });
-
   const dot = root.querySelector('.cursor-dot');
   const ring = root.querySelector('.cursor-ring');
   const label = root.querySelector('.cursor-label');
@@ -86,20 +87,28 @@ function setupCursor() {
   const xRing = gsap.quickTo(ring, 'x', { duration: 0.5, ease: 'power3' });
   const yRing = gsap.quickTo(ring, 'y', { duration: 0.5, ease: 'power3' });
 
-  let visible = false;
+  // İlk gerçek fare hareketinde devreye gir: imleci o ana konumla,
+  // CSS ile görünür yap ve ancak şimdi native imleci gizle.
+  const activate = (e) => {
+    if (cursorActive) return;
+    cursorActive = true;
+    gsap.set([dot, ring], { x: e.clientX, y: e.clientY });
+    root.classList.add('is-active');
+    document.documentElement.classList.add('has-cursor');
+  };
+
   window.addEventListener('mousemove', (e) => {
-    if (!visible) {
-      visible = true;
-      gsap.to(root, { autoAlpha: 1, duration: 0.3 });
-    }
+    activate(e);
     xDot(e.clientX);
     yDot(e.clientY);
     xRing(e.clientX);
     yRing(e.clientY);
   });
-  document.addEventListener('mouseleave', () =>
-    gsap.to(root, { autoAlpha: 0, duration: 0.3 }),
-  );
+  // viewport'tan çıkınca gizle, geri gelince göster
+  document.addEventListener('mouseleave', () => root.classList.remove('is-active'));
+  document.addEventListener('mouseenter', () => {
+    if (cursorActive) root.classList.add('is-active');
+  });
 
   // delegasyon: interaktif öğeler üzerinde ring büyür / etiket
   document.addEventListener('mouseover', (e) => {
@@ -159,6 +168,15 @@ function splitToLines(el) {
 ---------------------------------------------------------- */
 function initContent() {
   pageCtx = gsap.context(() => {
+    // nav scroll durumu: 40px sonra katı açık bar + koyu metin
+    const navEl = document.querySelector('[data-nav]');
+    if (navEl) {
+      const setNav = () =>
+        navEl.classList.toggle('is-scrolled', (lenis ? lenis.scroll : window.scrollY) > 40);
+      setNav();
+      ScrollTrigger.create({ start: 0, end: 'max', onUpdate: setNav, onRefresh: setNav });
+    }
+
     // başlık / metin satır reveal
     gsap.utils.toArray('[data-reveal="lines"]').forEach((el) => {
       if (reduceMotion) return;
