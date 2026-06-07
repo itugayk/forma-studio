@@ -1,0 +1,162 @@
+---
+const year = 2026;
+const links = [
+  { href: '/projeler', label: 'Projeler' },
+  { href: '/hizmetler', label: 'Hizmetler' },
+  { href: '/studyo', label: 'Stüdyo' },
+  { href: '/surec', label: 'Süreç' },
+  { href: '/iletisim', label: 'İletişim' },
+];
+const socials = [
+  { href: 'https://instagram.com', label: 'Instagram' },
+  { href: 'https://linkedin.com', label: 'LinkedIn' },
+  { href: 'https://behance.net', label: 'Behance' },
+];
+---
+
+<footer class="ftr">
+  <div class="u-container">
+    <div class="ftr-cta">
+      <span class="eyebrow" data-reveal="up">Bir sonraki proje</span>
+      <a href="/iletisim" class="ftr-cta__link" data-cursor="Başla" data-reveal="up" data-delay="0.05">
+        <span class="ftr-cta__lead">Birlikte</span>
+        <span class="ftr-cta__lead ftr-cta__accent">inşa edelim</span>
+        <svg class="ftr-cta__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 19L19 5M19 5H8M19 5V16" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="ftr-grid">
+      <div class="ftr-col ftr-brand">
+        <p class="ftr-logo">Forma<span>Studio</span></p>
+        <p class="ftr-note">
+          Mimarlık & iç tasarım ofisi. Konut, ticari ve iç mekan
+          projelerinde insan ölçekli, kalıcı tasarımlar.
+        </p>
+      </div>
+
+      <nav class="ftr-col" aria-label="Site haritası">
+        <span class="ftr-head">Gezin</span>
+        <ul>
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <div class="ftr-col">
+        <span class="ftr-head">İletişim</span>
+        <ul>
+          <li><a href="mailto:merhaba@formastudio.com">merhaba@formastudio.com</a></li>
+          <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
+          <li class="ftr-addr">Karaköy, Kemankeş Cd. No:12<br />Beyoğlu / İstanbul</li>
+        </ul>
+      </div>
+
+      <div class="ftr-col">
+        <span class="ftr-head">Takip</span>
+        <ul>
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener noreferrer">
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="ftr-bottom">
+      <span>© {year} Forma Studio. Tüm hakları saklıdır.</span>
+      <span class="ftr-demo">Demo — dijifa.com</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding-top: clamp(4rem, 9vw, 8rem);
+    padding-bottom: 2.5rem;
+  }
+  .ftr-cta {
+    border-bottom: 1px solid rgba(250, 248, 245, 0.14);
+    padding-bottom: clamp(3rem, 7vw, 6rem);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .ftr-cta .eyebrow { display: block; margin-bottom: 1.5rem; }
+  .ftr-cta__link {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.3em;
+    line-height: 0.9;
+  }
+  .ftr-cta__lead {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(2.6rem, 12vw, 9rem);
+    letter-spacing: -0.01em;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .ftr-cta__accent { color: var(--color-terra); }
+  .ftr-cta__link:hover .ftr-cta__lead { transform: translateX(0.15em); }
+  .ftr-cta__arrow {
+    width: clamp(2.5rem, 7vw, 5rem);
+    height: clamp(2.5rem, 7vw, 5rem);
+    margin-left: 0.2em;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .ftr-cta__link:hover .ftr-cta__arrow { transform: rotate(45deg) scale(1.05); }
+
+  .ftr-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 640px) {
+    .ftr-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 980px) {
+    .ftr-grid { grid-template-columns: 1.6fr 1fr 1.2fr 1fr; gap: 3rem; }
+  }
+  .ftr-logo {
+    font-family: var(--font-head);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    letter-spacing: 0.03em;
+    margin: 0 0 1rem;
+  }
+  .ftr-logo span { font-weight: 300; opacity: 0.6; margin-left: 0.3em; }
+  .ftr-note { max-width: 30ch; color: var(--color-stone-light); font-size: 0.95rem; }
+  .ftr-head {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 1.2rem;
+  }
+  .ftr-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .ftr-col a { color: var(--color-paper); opacity: 0.85; transition: opacity 0.3s, color 0.3s; }
+  .ftr-col a:hover { opacity: 1; color: var(--color-terra); }
+  .ftr-addr { color: var(--color-stone-light); line-height: 1.5; }
+
+  .ftr-bottom {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(250, 248, 245, 0.14);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-stone);
+    letter-spacing: 0.04em;
+  }
+  .ftr-demo { text-transform: uppercase; letter-spacing: 0.16em; }
+</style>

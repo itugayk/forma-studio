@@ -1,0 +1,182 @@
+---
+import Base from '../layouts/Base.astro';
+
+const channels = [
+  { label: 'E-posta', value: 'merhaba@formastudio.com', href: 'mailto:merhaba@formastudio.com' },
+  { label: 'Telefon', value: '+90 212 000 00 00', href: 'tel:+902120000000' },
+  { label: 'Adres', value: 'Karaköy, Kemankeş Cd. No:12 · Beyoğlu / İstanbul', href: null },
+  { label: 'Çalışma', value: 'Pzt — Cum · 09.00 — 18.00', href: null },
+];
+const projectTypes = ['Konut', 'Ticari', 'İç Mekan', 'Danışmanlık', 'Diğer'];
+---
+
+<Base
+  title="İletişim — Forma Studio"
+  description="Forma Studio ile iletişime geçin. Yeni bir proje, işbirliği veya soru için bize yazın."
+>
+  <section class="page-hero u-container">
+    <span class="eyebrow" data-reveal="up">İletişim</span>
+    <h1 class="page-title" data-reveal="lines">Konuşalım</h1>
+    <p class="lead-lg ct-lead" data-reveal="up" data-delay="0.1">
+      Yeni bir proje, bir fikir ya da sadece bir merak — formu doldurun, en geç
+      iki iş günü içinde dönelim.
+    </p>
+  </section>
+
+  <section class="sec ct-body">
+    <div class="u-container ct-grid">
+      <!-- form -->
+      <form class="ct-form" data-contact-form novalidate>
+        <div class="ct-row">
+          <div class="field">
+            <label for="name">Ad Soyad</label>
+            <input id="name" name="name" type="text" required placeholder="Adınız" />
+          </div>
+          <div class="field">
+            <label for="email">E-posta</label>
+            <input id="email" name="email" type="email" required placeholder="ornek@eposta.com" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Proje türü</label>
+          <div class="chips">
+            {
+              projectTypes.map((t, i) => (
+                <label class="chip">
+                  <input type="radio" name="type" value={t} checked={i === 0} />
+                  <span>{t}</span>
+                </label>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">Mesaj</label>
+          <textarea id="message" name="message" rows="5" required placeholder="Projenizden kısaca bahsedin…"></textarea>
+        </div>
+
+        <button type="submit" class="ct-submit" data-cursor="Gönder">
+          <span>Mesajı gönder</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+
+        <p class="ct-success" data-contact-success hidden>
+          Teşekkürler — mesajınız bize ulaştı. En kısa sürede döneceğiz.
+        </p>
+        <p class="ct-demo-note">Bu bir demo formudur; gönderim sunucuya iletilmez.</p>
+      </form>
+
+      <!-- info -->
+      <aside class="ct-info">
+        <span class="eyebrow" data-reveal="up">Doğrudan</span>
+        <ul class="ct-channels">
+          {
+            channels.map((c) => (
+              <li class="ct-channel" data-reveal="up">
+                <span class="ct-channel__label">{c.label}</span>
+                {c.href ? (
+                  <a href={c.href} class="ct-channel__value" data-cursor="Aç">{c.value}</a>
+                ) : (
+                  <span class="ct-channel__value">{c.value}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="ct-map" data-reveal="up" aria-hidden="true">
+          <div class="ct-map__pin"></div>
+          <span class="ct-map__tag display">Karaköy · İstanbul</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ct-lead { max-width: 44ch; margin-top: 2rem; color: var(--color-stone); }
+
+  .ct-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
+  @media (min-width: 950px) { .ct-grid { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+
+  .ct-form { display: grid; gap: 1.8rem; }
+  .ct-row { display: grid; gap: 1.8rem; }
+  @media (min-width: 600px) { .ct-row { grid-template-columns: 1fr 1fr; } }
+  .field { display: grid; gap: 0.7rem; }
+  .field label { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-stone); }
+  .field input, .field textarea {
+    border: none;
+    border-bottom: 1px solid rgba(13,13,12,0.3);
+    background: transparent;
+    padding: 0.7rem 0;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--color-ink);
+    border-radius: 0;
+    transition: border-color 0.35s;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: var(--color-stone-light); }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--color-terra); }
+  .field textarea { resize: vertical; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .chip span {
+    display: inline-block;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid rgba(13,13,12,0.25);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .chip input:checked + span { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-ink); }
+
+  .ct-submit {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border: none;
+    border-radius: 999px;
+    padding: 1.1rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background-color 0.4s var(--ease-out-expo);
+  }
+  .ct-submit:hover { background: var(--color-terra); }
+  .ct-submit svg { width: 1.05rem; height: 1.05rem; transition: transform 0.4s var(--ease-out-expo); }
+  .ct-submit:hover svg { transform: translateX(0.3rem); }
+  .ct-success { color: var(--color-olive); font-weight: 500; }
+  .ct-demo-note { font-size: 0.78rem; color: var(--color-stone-light); letter-spacing: 0.04em; }
+
+  .ct-channels { list-style: none; margin: 1.5rem 0 2.5rem; padding: 0; display: grid; gap: 0; }
+  .ct-info .eyebrow { display: block; }
+  .ct-channel { display: grid; gap: 0.4rem; padding-block: 1.3rem; border-top: 1px solid rgba(13,13,12,0.14); }
+  .ct-channel:last-child { border-bottom: 1px solid rgba(13,13,12,0.14); }
+  .ct-channel__label { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-stone); }
+  .ct-channel__value { font-size: 1.15rem; font-weight: 400; }
+  a.ct-channel__value { transition: color 0.3s; }
+  a.ct-channel__value:hover { color: var(--color-terra); }
+
+  .ct-map {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background:
+      repeating-linear-gradient(0deg, rgba(13,13,12,0.05) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, rgba(13,13,12,0.05) 0 1px, transparent 1px 28px),
+      var(--color-paper-deep);
+    overflow: hidden;
+  }
+  .ct-map__pin { position: absolute; top: 46%; left: 42%; width: 16px; height: 16px; border-radius: 50%; background: var(--color-terra); box-shadow: 0 0 0 8px rgba(196,107,74,0.2); }
+  .ct-map__pin::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--color-terra); animation: pulse 2.5s ease-out infinite; }
+  @keyframes pulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(4); opacity: 0; } }
+  .ct-map__tag { position: absolute; bottom: 1rem; left: 1rem; font-size: 1rem; color: var(--color-ink); }
+</style>

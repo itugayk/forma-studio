@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+
+const phases = [
+  {
+    no: '01',
+    title: 'Konsept',
+    lead: 'Dinleme & keşif',
+    text: 'Her şey dinlemekle başlar. Araziyi gezer, ihtiyaçları, bütçeyi ve hayali masaya koyar; ana fikri eskizler ve referanslarla damıtırız. Bu aşamanın sonunda elinizde net bir yön ve duygu olur.',
+    items: ['Brief & ihtiyaç analizi', 'Yer & bağlam etüdü', 'Konsept eskizleri', 'Referans & mood'],
+    image: '/images/p-08.jpg',
+  },
+  {
+    no: '02',
+    title: 'Tasarım',
+    lead: 'Geliştirme & detay',
+    text: 'Konsepti plana, kesite ve üç boyuta çeviririz. Malzeme paleti, ışık kurgusu ve mobilya bu evrede netleşir. Üç boyutlu modeller ve görsellerle mekânı daha inşa edilmeden gezersiniz.',
+    items: ['Avan & uygulama projesi', 'Malzeme & ışık paleti', '3B model & görseller', 'Maliyet kurgusu'],
+    image: '/images/p-04.jpg',
+  },
+  {
+    no: '03',
+    title: 'Uygulama',
+    lead: 'Şantiye & gözetim',
+    text: 'Tasarımın bütünlüğü asıl şantiyede korunur. İhale dosyasını hazırlar, doğru ekipleri seçer ve sahada düzenli gözetimle her detayın çizildiği gibi hayata geçmesini sağlarız.',
+    items: ['İhale & taşeron seçimi', 'Şantiye gözetimi', 'Detay & birleşim kontrolü', 'Tedarik yönetimi'],
+    image: '/images/p-13.jpg',
+  },
+  {
+    no: '04',
+    title: 'Teslim',
+    lead: 'Bitiş & yaşam',
+    text: 'Mekânı ışığıyla, dokusuyla ve son aksesuarına kadar teslim ederiz. Devir sonrası da yanınızdayız; çünkü iyi bir mekân teslimle değil, içinde yaşanmaya başlandığında olgunlaşır.',
+    items: ['İnce işler & styling', 'Final kontrol listesi', 'Anahtar teslim', 'Devir sonrası destek'],
+    image: '/images/p-02.jpg',
+  },
+];
+---
+
+<Base
+  title="Süreç — Forma Studio"
+  description="Konseptten teslime: Forma Studio'nun dört adımlık, şeffaf çalışma süreci."
+>
+  <section class="page-hero u-container">
+    <span class="eyebrow" data-reveal="up">Süreç</span>
+    <h1 class="page-title" data-reveal="lines">Nasıl çalışırız</h1>
+    <p class="lead-lg pr-lead" data-reveal="up" data-delay="0.1">
+      İlk eskizden anahtarı teslim ettiğimiz güne kadar; içinde olduğunuz,
+      şeffaf ve dört adımlık bir yolculuk.
+    </p>
+  </section>
+
+  <section class="pr-list">
+    {
+      phases.map((p, i) => (
+        <article class="phase">
+          <div class="u-container phase__grid">
+            <div class="phase__sticky">
+              <span class="phase__no display">{p.no}</span>
+              <span class="phase__lead">{p.lead}</span>
+            </div>
+            <div class="phase__main">
+              <div class="phase__media reveal-media" data-reveal="img">
+                <img src={p.image} alt={p.title} loading={i === 0 ? 'eager' : 'lazy'} width="1600" height="1067" />
+              </div>
+              <h2 class="phase__title" data-reveal="lines">{p.title}</h2>
+              <p class="phase__text" data-reveal="up">{p.text}</p>
+              <ul class="phase__items" data-reveal="up">
+                {p.items.map((it) => <li>{it}</li>)}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="sec pr-cta">
+    <div class="u-container pr-cta__inner">
+      <span class="eyebrow" data-reveal="up">Hazır mısınız?</span>
+      <h2 class="sec-title" data-reveal="lines">Birinci adımı atalım</h2>
+      <div data-reveal="up"><Button href="/iletisim" label="Görüşme planla" variant="dark" cursor="Planla" /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pr-lead { max-width: 44ch; margin-top: 2rem; color: var(--color-stone); }
+
+  .phase { border-top: 1px solid rgba(13,13,12,0.12); padding-block: clamp(3rem, 7vw, 6rem); }
+  .phase__grid { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); }
+  @media (min-width: 900px) { .phase__grid { grid-template-columns: 0.7fr 1.6fr; align-items: start; } }
+  .phase__sticky { position: relative; }
+  @media (min-width: 900px) { .phase__sticky { position: sticky; top: 18vh; } }
+  .phase__no { display: block; font-size: clamp(4rem, 11vw, 9rem); line-height: 0.8; color: var(--color-terra); }
+  .phase__lead { display: block; margin-top: 1rem; font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-stone); }
+  .phase__media { aspect-ratio: 16 / 10; overflow: hidden; margin-bottom: 2rem; }
+  .phase__media img { width: 100%; height: 100%; object-fit: cover; }
+  .phase__title { font-family: var(--font-head); font-weight: 800; font-size: clamp(2.2rem, 6vw, 4rem); margin-bottom: 1.2rem; }
+  .phase__text { font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.5; max-width: 52ch; margin-bottom: 2rem; }
+  .phase__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; max-width: 40rem; }
+  @media (min-width: 600px) { .phase__items { grid-template-columns: 1fr 1fr; } }
+  .phase__items li { padding-left: 1.5rem; position: relative; color: var(--color-ink); border-top: 1px solid rgba(13,13,12,0.12); padding-top: 0.7rem; }
+  .phase__items li::before { content: ''; position: absolute; left: 0; top: 1.1rem; width: 0.5rem; height: 0.5rem; background: var(--color-terra); }
+
+  .pr-cta__inner { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .pr-cta__inner .eyebrow { display: block; }
+</style>

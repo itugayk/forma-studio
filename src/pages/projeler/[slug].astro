@@ -1,0 +1,158 @@
+---
+import Base from '../../layouts/Base.astro';
+import Button from '../../components/Button.astro';
+import { projects, categoryLabel } from '../../data/projects.js';
+
+export function getStaticPaths() {
+  return projects.map((p, i) => {
+    const next = projects[(i + 1) % projects.length];
+    return { params: { slug: p.slug }, props: { project: p, next } };
+  });
+}
+
+const { project, next } = Astro.props;
+const facts = [
+  { label: 'Kategori', value: categoryLabel[project.category] },
+  { label: 'Konum', value: project.location },
+  { label: 'Yıl', value: project.year },
+  { label: 'Alan', value: project.area },
+  { label: 'İşveren', value: project.client },
+];
+---
+
+<Base
+  title={`${project.title} — Forma Studio`}
+  description={project.summary}
+  image={project.cover}
+>
+  <!-- hero -->
+  <section class="dt-hero">
+    <div class="u-container">
+      <a href="/projeler" class="dt-back" data-cursor="Geri">← Projeler</a>
+      <span class="dt-no eyebrow">Proje {project.no} — {categoryLabel[project.category]}</span>
+      <h1 class="dt-title" data-reveal="lines" data-hero>{project.title}</h1>
+      <p class="dt-summary" data-reveal="up" data-delay="0.5">{project.summary}</p>
+    </div>
+  </section>
+
+  <!-- cover -->
+  <section class="u-container">
+    <figure class="dt-cover reveal-media" data-reveal="img">
+      <img src={project.cover} alt={`${project.title} — ana görsel`} fetchpriority="high" width="1600" height="1067" />
+    </figure>
+  </section>
+
+  <!-- facts + description -->
+  <section class="sec dt-body">
+    <div class="u-container dt-body__grid">
+      <aside class="dt-facts">
+        <span class="eyebrow" data-reveal="up">Künye</span>
+        <dl>
+          {
+            facts.map((f) => (
+              <div class="dt-fact" data-reveal="up">
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <div class="dt-services" data-reveal="up">
+          <dt class="eyebrow">Hizmetler</dt>
+          <ul>
+            {project.services.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      </aside>
+
+      <div class="dt-desc">
+        {project.description.map((para) => <p data-reveal="up">{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- gallery -->
+  <section class="dt-gallery">
+    {
+      project.gallery.map((src, i) => (
+        <figure
+          class:list={['dt-shot reveal-media', { wide: i === 0, half: i > 0 }]}
+          data-reveal="img"
+        >
+          <img src={src} alt={`${project.title} — görsel ${i + 2}`} loading="lazy" width="1600" height="1067" />
+        </figure>
+      ))
+    }
+  </section>
+
+  <!-- next -->
+  <section class="dt-next">
+    <a href={`/projeler/${next.slug}`} class="dt-next__link" data-cursor="Sonraki">
+      <div class="u-container dt-next__inner">
+        <span class="eyebrow">Sonraki proje</span>
+        <h2 class="dt-next__title" data-reveal="lines">{next.title}</h2>
+        <span class="dt-next__cat">{categoryLabel[next.category]} · {next.location}</span>
+      </div>
+      <div class="dt-next__bg reveal-media">
+        <img src={next.cover} alt="" width="1600" height="1067" />
+      </div>
+    </a>
+  </section>
+</Base>
+
+<style>
+  .dt-hero { padding-top: clamp(8rem, 18vh, 12rem); padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .dt-back { display: inline-block; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-stone); margin-bottom: 2.5rem; transition: color 0.3s; }
+  .dt-back:hover { color: var(--color-terra); }
+  .dt-no { display: block; margin-bottom: 1.2rem; }
+  .dt-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    font-size: clamp(3rem, 12vw, 9.5rem);
+    line-height: 0.86;
+  }
+  .dt-summary { max-width: 48ch; margin-top: 1.8rem; font-size: clamp(1.1rem, 1.8vw, 1.5rem); line-height: 1.4; color: var(--color-ink); }
+
+  .dt-cover { aspect-ratio: 16 / 10; overflow: hidden; }
+  .dt-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+  .dt-body__grid { display: grid; gap: clamp(2.5rem, 5vw, 5rem); }
+  @media (min-width: 900px) { .dt-body__grid { grid-template-columns: 0.8fr 1.4fr; } }
+  .dt-facts dl { margin: 1.5rem 0 0; }
+  .dt-fact { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.9rem; border-bottom: 1px solid rgba(13,13,12,0.14); }
+  .dt-fact dt { color: var(--color-stone); font-size: 0.9rem; letter-spacing: 0.04em; }
+  .dt-fact dd { margin: 0; font-weight: 500; text-align: right; }
+  .dt-services { margin-top: 2rem; }
+  .dt-services .eyebrow { display: block; margin-bottom: 1rem; }
+  .dt-services ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .dt-services li { font-weight: 500; }
+  .dt-desc p { font-size: clamp(1.1rem, 1.8vw, 1.5rem); line-height: 1.5; margin: 0 0 1.5rem; }
+  .dt-desc p:first-child { font-weight: 400; }
+
+  .dt-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 2.5vw, 2rem);
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+    padding-bottom: var(--spacing-section);
+  }
+  @media (min-width: 800px) {
+    .dt-gallery { grid-template-columns: 1fr 1fr; }
+    .dt-shot.wide { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+    .dt-shot.half { aspect-ratio: 3 / 4; }
+  }
+  .dt-shot { overflow: hidden; aspect-ratio: 4 / 3; }
+  .dt-shot img { width: 100%; height: 100%; object-fit: cover; }
+
+  .dt-next { background: var(--color-ink); }
+  .dt-next__link { position: relative; display: block; padding-block: clamp(5rem, 12vw, 10rem); color: var(--color-paper); overflow: hidden; }
+  .dt-next__inner { position: relative; z-index: 2; }
+  .dt-next__inner .eyebrow { color: var(--color-stone-light); display: block; margin-bottom: 1.2rem; }
+  .dt-next__title { font-family: var(--font-display); text-transform: uppercase; font-weight: 900; letter-spacing: -0.025em; font-size: clamp(3rem, 11vw, 9rem); line-height: 0.88; }
+  .dt-next__cat { display: block; margin-top: 1rem; color: var(--color-stone-light); letter-spacing: 0.04em; }
+  .dt-next__bg { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 0.7s var(--ease-out-expo); }
+  .dt-next__bg img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2) brightness(0.5); }
+  @media (hover: hover) { .dt-next__link:hover .dt-next__bg { opacity: 0.55; } }
+</style>

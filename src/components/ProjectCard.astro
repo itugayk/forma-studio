@@ -1,0 +1,125 @@
+---
+import { categoryLabel } from '../data/projects.js';
+const { project, eager = false } = Astro.props;
+---
+
+<a
+  href={`/projeler/${project.slug}`}
+  class="pcard"
+  data-cat={project.category}
+  data-cursor="Gör"
+>
+  <div class="pcard__media reveal-media" data-reveal="img">
+    <img
+      src={project.cover}
+      alt={`${project.title} — ${categoryLabel[project.category]} projesi`}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      width="1600"
+      height="1067"
+    />
+    <span class="pcard__no">{project.no}</span>
+    <div class="pcard__hover">
+      <span class="pcard__hover-label">Projeyi gör</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 19L19 5M19 5H8M19 5V16" stroke="currentColor" stroke-width="1.5" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="pcard__meta">
+    <h3 class="pcard__title">{project.title}</h3>
+    <div class="pcard__info">
+      <span>{categoryLabel[project.category]}</span>
+      <span class="pcard__dot">·</span>
+      <span>{project.location}</span>
+      <span class="pcard__year">{project.year}</span>
+    </div>
+  </div>
+</a>
+
+<style>
+  .pcard {
+    display: block;
+  }
+  .pcard__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-paper-deep);
+  }
+  .pcard__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s var(--ease-out-expo), filter 0.6s;
+  }
+  .pcard:hover .pcard__media img {
+    transform: scale(1.05);
+  }
+  .pcard__no {
+    position: absolute;
+    top: 1rem;
+    left: 1.1rem;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--color-paper);
+    mix-blend-mode: difference;
+    z-index: 2;
+  }
+  .pcard__hover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    color: var(--color-paper);
+    background: rgba(13, 13, 12, 0);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-expo), background 0.5s var(--ease-out-expo);
+  }
+  .pcard__hover svg { width: 1.2rem; height: 1.2rem; }
+  .pcard__hover-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: translateY(8px);
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  @media (hover: hover) {
+    .pcard:hover .pcard__hover {
+      opacity: 1;
+      background: rgba(13, 13, 12, 0.32);
+    }
+    .pcard:hover .pcard__hover-label { transform: translateY(0); }
+  }
+
+  .pcard__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.1rem;
+    flex-wrap: wrap;
+  }
+  .pcard__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+  .pcard:hover .pcard__title { color: var(--color-terra); }
+  .pcard__info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-stone);
+    letter-spacing: 0.02em;
+  }
+  .pcard__dot { opacity: 0.5; }
+  .pcard__year { margin-left: 0.4rem; color: var(--color-ink); }
+</style>

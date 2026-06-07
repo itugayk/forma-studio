@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+---
+
+<Base title="Sayfa bulunamadı — Forma Studio" noindex={true}>
+  <section class="nf">
+    <div class="u-container nf__inner">
+      <span class="nf__code display">404</span>
+      <h1 class="nf__title" data-reveal="lines">Bu mekân henüz çizilmedi</h1>
+      <p class="nf__text" data-reveal="up">
+        Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.
+        Sizi bildiğimiz bir yere götürelim.
+      </p>
+      <div class="nf__cta" data-reveal="up">
+        <Button href="/" label="Ana sayfa" variant="dark" cursor="Git" />
+        <Button href="/projeler" label="Projeler" variant="outline" cursor="Gör" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 88svh; display: flex; align-items: center; padding-block: clamp(8rem, 18vh, 12rem); }
+  .nf__inner { display: flex; flex-direction: column; align-items: flex-start; }
+  .nf__code { font-size: clamp(6rem, 26vw, 22rem); line-height: 0.8; color: var(--color-terra); }
+  .nf__title { font-family: var(--font-head); font-weight: 800; font-size: clamp(2rem, 6vw, 4rem); margin: 1rem 0 1.2rem; }
+  .nf__text { max-width: 44ch; color: var(--color-stone); font-size: 1.1rem; margin-bottom: 2.5rem; }
+  .nf__cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+</style>

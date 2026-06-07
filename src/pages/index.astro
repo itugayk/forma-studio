@@ -1,0 +1,400 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Button from '../components/Button.astro';
+import { getFeatured } from '../data/projects.js';
+
+const featured = getFeatured();
+
+const services = [
+  {
+    no: '01',
+    title: 'Mimari Tasarım',
+    text: 'Konsept geliştirmeden uygulama projesine, araziyle ve ışıkla başlayan bütüncül mimari kurgu.',
+  },
+  {
+    no: '02',
+    title: 'İç Mimari',
+    text: 'Malzeme, doku ve ışığın insan ölçeğinde buluştuğu; yaşanabilir ve kalıcı iç mekânlar.',
+  },
+  {
+    no: '03',
+    title: 'Tasarım Danışmanlığı',
+    text: 'Fikir aşamasından markalaşmaya; fizibilite, konsept yönetimi ve yaratıcı yön.',
+  },
+];
+
+const steps = [
+  { no: '01', title: 'Konsept', text: 'Araziyi, ihtiyacı ve hikâyeyi dinler; ana fikri eskizlerle damıtırız.' },
+  { no: '02', title: 'Tasarım', text: 'Mekânı plan, kesit ve malzemeyle kurar; her detayı modelleriz.' },
+  { no: '03', title: 'Uygulama', text: 'Şantiyede tasarımın bütünlüğünü koruyacak biçimde sahanın yanındayız.' },
+  { no: '04', title: 'Teslim', text: 'Yaşamaya hazır, ışıkla test edilmiş, kusursuz biten bir mekân.' },
+];
+
+const press = ['Arkitera', 'XXI Mimarlık', 'Dezeen', 'Yapı Dergisi', 'ArchDaily', 'Domus'];
+---
+
+<Base>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero__bg reveal-media">
+      <img src="/images/p-19.jpg" alt="Forma Studio — sahil rezidans projesi" fetchpriority="high" width="1600" height="1067" />
+      <div class="hero__veil"></div>
+    </div>
+
+    <div class="hero__content u-container">
+      <span class="hero__eyebrow eyebrow">Mimarlık & İç Tasarım — İstanbul</span>
+      <h1 class="hero__title display-xl">
+        <span data-reveal="lines" data-hero>Mekânı biçimle</span>
+        <span data-reveal="lines" data-hero class="accent">düşünürüz</span>
+      </h1>
+    </div>
+
+    <div class="hero__foot u-container">
+      <p class="hero__lead" data-reveal="up" data-delay="0.7">
+        Konut, ticari ve iç mekan projelerinde minimalist, sanatsal ve insan
+        ölçekli mimarlık üreten bir tasarım ofisi.
+      </p>
+      <a href="#projeler" class="hero__scroll" data-cursor="Kaydır" aria-label="Aşağı kaydır">
+        <span>Keşfet</span>
+        <span class="hero__scroll-line"></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED PROJECTS ============ -->
+  <section class="sec featured" id="projeler">
+    <div class="u-container">
+      <header class="sec-head">
+        <span class="eyebrow" data-reveal="up">Seçili Projeler</span>
+        <h2 class="sec-title" data-reveal="lines">Son işler</h2>
+        <a href="/projeler" class="sec-head__link" data-cursor="Tümü">
+          Tüm portföy
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+      </header>
+
+      <div class="featured__grid">
+        {
+          featured.map((p, i) => (
+            <div class:list={['featured__item', { offset: i % 2 === 1 }]}>
+              <ProjectCard project={p} eager={i === 0} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FULL-BLEED PARALLAX ============ -->
+  <section class="bleed" data-parallax-wrap aria-hidden="true">
+    <div class="bleed__media">
+      <img src="/images/p-13.jpg" alt="" data-parallax="0.25" width="1600" height="1067" />
+    </div>
+    <span class="bleed__caption display">Forma · 2014 — 2026</span>
+  </section>
+
+  <!-- ============ MANIFESTO ============ -->
+  <section class="sec manifesto">
+    <div class="u-container">
+      <span class="eyebrow" data-reveal="up">Stüdyo</span>
+      <p class="manifesto__text" data-reveal="words-scrub">
+        Bizim için tasarım gösteriş değil; ışığın, oranın ve malzemenin sessiz
+        diyaloğudur. Her projeye orada yaşayacak hayatın hikâyesiyle başlar,
+        gereksiz olanı çıkarır ve geriye yalnızca doğru olanı bırakırız.
+      </p>
+      <div class="manifesto__foot" data-reveal="up">
+        <Button href="/studyo" label="Stüdyoyu tanı" variant="dark" cursor="Tanı" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="sec services">
+    <div class="u-container">
+      <header class="sec-head sec-head--split">
+        <div>
+          <span class="eyebrow" data-reveal="up">Ne yapıyoruz</span>
+          <h2 class="sec-title" data-reveal="lines">Hizmetler</h2>
+        </div>
+        <p class="services__intro" data-reveal="up" data-delay="0.1">
+          Tek bir masada toplanan mimari, iç mimari ve danışmanlık;
+          fikirden anahtar teslimine kadar tek bir dil.
+        </p>
+      </header>
+
+      <ul class="services__list">
+        {
+          services.map((s) => (
+            <li class="srv" data-reveal="up">
+              <span class="srv__no">{s.no}</span>
+              <h3 class="srv__title">{s.title}</h3>
+              <p class="srv__text">{s.text}</p>
+              <span class="srv__arrow">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19L19 5M19 5H8M19 5V16" stroke="currentColor" stroke-width="1.5"/></svg>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="services__cta" data-reveal="up">
+        <Button href="/hizmetler" label="Tüm hizmetler" variant="outline" cursor="Detay" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS — HORIZONTAL SCROLL ============ -->
+  <section class="hscroll" data-hscroll aria-label="Çalışma süreci">
+    <div class="hscroll__track" data-hscroll-track>
+      <div class="hscroll__intro">
+        <span class="eyebrow">Süreç</span>
+        <h2 class="hscroll__heading display">Konsept'ten<br />uygulamaya</h2>
+        <p>Dört adımlık, şeffaf ve sahip olduğunuz her aşamada içinde olduğunuz bir yolculuk.</p>
+      </div>
+      {
+        steps.map((s) => (
+          <article class="step">
+            <span class="step__no display">{s.no}</span>
+            <div class="step__body">
+              <h3 class="step__title">{s.title}</h3>
+              <p class="step__text">{s.text}</p>
+            </div>
+          </article>
+        ))
+      }
+      <div class="hscroll__end">
+        <Button href="/surec" label="Süreci incele" variant="light" cursor="İncele" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRESS / AWARDS ============ -->
+  <section class="sec press">
+    <div class="u-container">
+      <div class="press__top">
+        <span class="eyebrow" data-reveal="up">Basın & Ödüller</span>
+        <p class="press__lead" data-reveal="up" data-delay="0.1">
+          Çalışmalarımız yurt içi ve yurt dışında yayınlandı, ödüllerle tanındı.
+        </p>
+      </div>
+    </div>
+    <div class="press__marquee" aria-hidden="true">
+      <div class="marquee" data-marquee="34">
+        <div class="marquee__row">
+          {press.concat(press).map((p) => <span class="press__item display">{p}<i>✳</i></span>)}
+        </div>
+      </div>
+    </div>
+    <div class="u-container">
+      <div class="press__stats">
+        <div class="stat" data-reveal="up"><span class="stat__num display">120+</span><span class="stat__lbl">Tamamlanan proje</span></div>
+        <div class="stat" data-reveal="up" data-delay="0.08"><span class="stat__num display">14</span><span class="stat__lbl">Yıllık deneyim</span></div>
+        <div class="stat" data-reveal="up" data-delay="0.16"><span class="stat__num display">9</span><span class="stat__lbl">Tasarım ödülü</span></div>
+        <div class="stat" data-reveal="up" data-delay="0.24"><span class="stat__num display">6</span><span class="stat__lbl">Ülkede iş</span></div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Section primitives ---------- */
+  .sec { padding-block: var(--spacing-section); }
+  .sec-head { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+  .sec-head .eyebrow { display: block; margin-bottom: 1rem; }
+  .sec-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    font-size: clamp(2.6rem, 9vw, 7rem);
+    line-height: 0.9;
+  }
+  .sec-head--split {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+  }
+  @media (min-width: 900px) {
+    .sec-head--split { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-paper);
+    overflow: hidden;
+  }
+  .hero__bg { position: absolute; inset: 0; z-index: 0; }
+  .hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+  .hero__veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(13,13,12,0.45) 0%, rgba(13,13,12,0.1) 35%, rgba(13,13,12,0.55) 100%);
+  }
+  .hero__content { position: relative; z-index: 2; padding-top: 22vh; }
+  .hero__eyebrow { color: rgba(250,248,245,0.8); display: block; margin-bottom: 1.5rem; }
+  .hero__title .accent { color: var(--color-terra); }
+  .hero__title span { display: block; }
+  .hero__foot {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+    padding-bottom: clamp(2rem, 5vh, 4rem);
+    padding-top: clamp(2rem, 6vh, 5rem);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .hero__lead { max-width: 42ch; font-size: clamp(0.95rem, 1.4vw, 1.15rem); color: rgba(250,248,245,0.85); }
+  .hero__scroll {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .hero__scroll-line {
+    width: 1px; height: 48px; background: rgba(250,248,245,0.6);
+    transform-origin: top; animation: scrollLine 2.2s var(--ease-out-expo) infinite;
+  }
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ---------- FEATURED ---------- */
+  .featured__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem);
+  }
+  @media (min-width: 760px) {
+    .featured__grid { grid-template-columns: 1fr 1fr; }
+    .featured__item.offset { margin-top: clamp(3rem, 9vw, 9rem); }
+  }
+  .sec-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .sec-head__link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid currentColor; padding-bottom: 0.2rem;
+  }
+  .sec-head__link svg { width: 1rem; height: 1rem; transition: transform 0.4s var(--ease-out-expo); }
+  .sec-head__link:hover svg { transform: translateX(0.3rem); }
+
+  /* ---------- FULL BLEED ---------- */
+  .bleed { position: relative; height: clamp(60vh, 75vh, 90vh); overflow: hidden; }
+  .bleed__media { position: absolute; inset: -12% 0; }
+  .bleed__media img { width: 100%; height: 124%; object-fit: cover; }
+  .bleed__caption {
+    position: absolute; bottom: 1.5rem; right: clamp(1.25rem, 5vw, 4rem);
+    color: var(--color-paper); font-size: clamp(1rem, 2vw, 1.6rem); mix-blend-mode: difference;
+  }
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto { background: var(--color-paper-deep); }
+  .manifesto .eyebrow { display: block; margin-bottom: 2rem; }
+  .manifesto__text {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 4.4vw, 3.6rem);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    max-width: 20ch;
+    margin: 0;
+  }
+  .manifesto__foot { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+  /* ---------- SERVICES ---------- */
+  .services__intro { max-width: 38ch; font-size: 1.05rem; color: var(--color-stone); align-self: end; }
+  .services__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(13,13,12,0.14); }
+  .srv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 2rem;
+    align-items: start;
+    padding-block: clamp(1.8rem, 4vw, 3rem);
+    border-bottom: 1px solid rgba(13,13,12,0.14);
+    position: relative;
+    transition: padding-left 0.5s var(--ease-out-expo);
+  }
+  @media (min-width: 760px) {
+    .srv { grid-template-columns: 5rem 1fr 1.4fr auto; align-items: center; }
+    .srv:hover { padding-left: 1.2rem; }
+  }
+  .srv__no { font-family: var(--font-body); font-size: 0.8rem; letter-spacing: 0.16em; color: var(--color-stone); }
+  .srv__title { font-family: var(--font-head); font-weight: 700; font-size: clamp(1.5rem, 3.5vw, 2.6rem); letter-spacing: -0.01em; transition: color 0.3s; }
+  .srv:hover .srv__title { color: var(--color-terra); }
+  .srv__text { color: var(--color-stone); max-width: 40ch; }
+  .srv__arrow { display: none; }
+  @media (min-width: 760px) {
+    .srv__arrow { display: block; color: var(--color-ink); opacity: 0; transform: translateX(-10px); transition: opacity 0.4s, transform 0.4s var(--ease-out-expo); }
+    .srv__arrow svg { width: 1.6rem; height: 1.6rem; }
+    .srv:hover .srv__arrow { opacity: 1; transform: translateX(0); }
+  }
+  .services__cta { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+  /* ---------- HORIZONTAL SCROLL ---------- */
+  .hscroll { background: var(--color-ink); color: var(--color-paper); overflow: hidden; }
+  .hscroll__track {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    width: max-content;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+  .hscroll__intro { width: min(80vw, 30rem); flex: none; }
+  .hscroll__intro .eyebrow { display: block; margin-bottom: 1.5rem; color: var(--color-stone-light); }
+  .hscroll__heading { font-size: clamp(2.6rem, 6vw, 5rem); line-height: 0.92; margin-bottom: 1.5rem; }
+  .hscroll__intro p { color: var(--color-stone-light); max-width: 32ch; }
+  .step {
+    flex: none;
+    width: min(82vw, 30rem);
+    height: 60vh;
+    border-left: 1px solid rgba(250,248,245,0.18);
+    padding: 2.5rem 0 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .step__no { font-size: clamp(5rem, 14vw, 11rem); line-height: 0.8; color: var(--color-terra); }
+  .step__title { font-family: var(--font-head); font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .step__text { color: var(--color-stone-light); max-width: 34ch; }
+  .hscroll__end { flex: none; display: flex; align-items: center; padding-inline: clamp(2rem, 6vw, 6rem); }
+
+  /* ---------- PRESS ---------- */
+  .press { background: var(--color-paper); padding-bottom: clamp(4rem, 8vw, 7rem); }
+  .press__top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .press__top .eyebrow { display: block; }
+  .press__lead { max-width: 38ch; color: var(--color-stone); }
+  .press__marquee { padding-block: clamp(1.5rem, 3vw, 2.5rem); border-block: 1px solid rgba(13,13,12,0.14); overflow: hidden; }
+  .marquee__row { display: flex; }
+  .press__item {
+    display: inline-flex; align-items: center; gap: 2.5rem;
+    font-size: clamp(2rem, 5vw, 4rem); padding-inline: 1.25rem; color: var(--color-ink); white-space: nowrap;
+  }
+  .press__item i { color: var(--color-terra); font-style: normal; font-size: 0.5em; }
+  .press__stats {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  @media (min-width: 760px) { .press__stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat__num { display: block; font-size: clamp(3rem, 7vw, 5.5rem); line-height: 0.9; }
+  .stat__lbl { display: block; margin-top: 0.6rem; font-size: 0.85rem; letter-spacing: 0.08em; color: var(--color-stone); text-transform: uppercase; }
+</style>

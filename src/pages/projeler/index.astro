@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects, categories } from '../../data/projects.js';
+---
+
+<Base
+  title="Projeler — Forma Studio"
+  description="Forma Studio portföyü: konut, ticari ve iç mekan projeleri. Filtreleyerek mimari ve iç tasarım işlerimizi keşfedin."
+>
+  <!-- intro -->
+  <section class="page-intro u-container">
+    <span class="eyebrow" data-reveal="up">Portföy — {projects.length} proje</span>
+    <h1 class="page-title" data-reveal="lines">Projeler</h1>
+    <p class="page-lead" data-reveal="up" data-delay="0.1">
+      Ege kıyısındaki bir evden şehir merkezindeki bir ofise; ölçeği ve programı
+      değişen ama dili aynı kalan işler. Kategoriye göre süzün.
+    </p>
+  </section>
+
+  <!-- filter -->
+  <section class="u-container filter-wrap">
+    <div class="filter" data-filter-bar role="tablist" aria-label="Proje kategorileri">
+      {
+        categories.map((c, i) => (
+          <button
+            class:list={['filter__btn', { active: i === 0 }]}
+            data-filter={c.key}
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+          >
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+    <span class="filter__count" data-filter-count>{projects.length} proje</span>
+  </section>
+
+  <!-- grid -->
+  <section class="u-container proj-grid-wrap">
+    <div class="proj-grid" data-filter-grid>
+      {projects.map((p, i) => <ProjectCard project={p} eager={i < 2} />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-intro { padding-top: clamp(8rem, 18vh, 12rem); padding-bottom: clamp(2rem, 4vw, 3rem); }
+  .page-intro .eyebrow { display: block; margin-bottom: 1.2rem; }
+  .page-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    font-size: clamp(3.5rem, 16vw, 13rem);
+    line-height: 0.86;
+  }
+  .page-lead { max-width: 52ch; margin-top: 1.8rem; font-size: clamp(1rem, 1.5vw, 1.2rem); color: var(--color-stone); }
+
+  .filter-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--color-paper);
+    padding-block: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(13,13,12,0.12);
+    backdrop-filter: blur(6px);
+  }
+  .filter { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .filter__btn {
+    border: 1px solid rgba(13,13,12,0.2);
+    background: transparent;
+    color: var(--color-ink);
+    border-radius: 999px;
+    padding: 0.6rem 1.2rem;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background-color 0.35s var(--ease-out-expo), color 0.35s, border-color 0.35s;
+  }
+  .filter__btn:hover { border-color: var(--color-ink); }
+  .filter__btn.active { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-ink); }
+  .filter__count { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-stone); }
+
+  .proj-grid-wrap { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: var(--spacing-section); }
+  .proj-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem);
+  }
+  @media (min-width: 700px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .proj-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .proj-grid :global(.pcard.is-hidden) { display: none; }
+</style>

@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+
+const services = [
+  {
+    no: '01',
+    title: 'Mimari Tasarım',
+    image: '/images/p-01.jpg',
+    text: 'Araziyle, iklimle ve programla başlayan bütüncül bir kurgu. Konsept tasarımdan uygulama projesine, ruhsat sürecinden ihale dosyasına kadar mimarinin tüm ölçeklerinde çalışırız.',
+    items: ['Konsept & avan proje', 'Uygulama projeleri', 'Ruhsat & onay süreçleri', 'İhale dosyası', 'Sürdürülebilirlik kurgusu'],
+  },
+  {
+    no: '02',
+    title: 'İç Mimari',
+    image: '/images/p-16.jpg',
+    text: 'Mekânın içine girdiğinizde hissettiğiniz her şey. Malzeme, doku, ışık ve mobilyayı insan ölçeğinde bir araya getirir; yaşanabilir ve zamansız iç mekânlar tasarlarız.',
+    items: ['İç mekan konsepti', 'Malzeme & doku paleti', 'Aydınlatma tasarımı', 'Özel mobilya tasarımı', 'Sanat & aksesuar yönetimi'],
+  },
+  {
+    no: '03',
+    title: 'Tasarım Danışmanlığı',
+    image: '/images/p-09.jpg',
+    text: 'Henüz çizgi yokken alınan kararlar en değerlileridir. Fizibiliteden marka mekânına, yatırımcıya stratejik yön veren bir yaratıcı ortaklık sunarız.',
+    items: ['Fizibilite & yer analizi', 'Konsept yönetimi', 'Marka mekânı stratejisi', 'Yatırımcı danışmanlığı', 'Tasarım gözetimi'],
+  },
+];
+
+const approach = [
+  { k: 'Az ama doğru', v: 'Gereksizi çıkarır, geriye yalnızca işe yarayan ve güzel olanı bırakırız.' },
+  { k: 'Işıkla tasarım', v: 'Her mekânı gün ışığının günlük ritmiyle birlikte kurgularız.' },
+  { k: 'Malzemeye saygı', v: 'Doğal, yaşlanan ve dürüst malzemeleri olduğu gibi kullanırız.' },
+  { k: 'Detayda titizlik', v: 'Birleşim, eşik ve gölge — fark yaratan her şey detaydadır.' },
+];
+---
+
+<Base
+  title="Hizmetler — Forma Studio"
+  description="Mimari tasarım, iç mimari ve tasarım danışmanlığı. Forma Studio'nun fikirden anahtar teslimine uzanan hizmetleri."
+>
+  <section class="page-hero u-container">
+    <span class="eyebrow" data-reveal="up">Hizmetler</span>
+    <h1 class="page-title" data-reveal="lines">Ne yaparız</h1>
+    <p class="lead-lg svc-lead" data-reveal="up" data-delay="0.1">
+      Mimari, iç mimari ve danışmanlığı tek bir masada toplarız. Böylece fikir,
+      çizgi ve şantiye arasında hiçbir şey kaybolmaz.
+    </p>
+  </section>
+
+  <section class="svc-list">
+    {
+      services.map((s) => (
+        <article class="svc-block">
+          <div class="u-container svc-block__grid">
+            <div class="svc-block__media reveal-media" data-reveal="img">
+              <img src={s.image} alt={s.title} loading="lazy" width="1600" height="1067" />
+            </div>
+            <div class="svc-block__text">
+              <span class="svc-block__no display">{s.no}</span>
+              <h2 class="svc-block__title" data-reveal="lines">{s.title}</h2>
+              <p class="svc-block__desc" data-reveal="up">{s.text}</p>
+              <ul class="svc-block__items" data-reveal="up">
+                {s.items.map((it) => <li>{it}</li>)}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="sec approach">
+    <div class="u-container">
+      <header class="approach__head">
+        <span class="eyebrow" data-reveal="up">Yaklaşım</span>
+        <h2 class="sec-title" data-reveal="lines">Nasıl çalışırız</h2>
+      </header>
+      <div class="approach__grid">
+        {
+          approach.map((a) => (
+            <div class="approach__item" data-reveal="up">
+              <h3>{a.k}</h3>
+              <p>{a.v}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="sec svc-cta">
+    <div class="u-container svc-cta__inner">
+      <h2 class="sec-title" data-reveal="lines">Projenizi konuşalım</h2>
+      <div data-reveal="up"><Button href="/iletisim" label="İletişime geç" variant="dark" cursor="Yaz" /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .svc-lead { max-width: 46ch; margin-top: 2rem; color: var(--color-stone); }
+
+  .svc-block { padding-block: clamp(3rem, 7vw, 6rem); border-top: 1px solid rgba(13,13,12,0.12); }
+  .svc-block:first-child { border-top: none; }
+  .svc-block__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  @media (min-width: 900px) { .svc-block__grid { grid-template-columns: 1fr 1fr; } .svc-block:nth-child(even) .svc-block__media { order: 2; } }
+  .svc-block__media { aspect-ratio: 4 / 3; overflow: hidden; }
+  .svc-block__media img { width: 100%; height: 100%; object-fit: cover; }
+  .svc-block__no { display: block; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--color-terra); line-height: 1; margin-bottom: 0.6rem; }
+  .svc-block__title { font-family: var(--font-head); font-weight: 800; font-size: clamp(2rem, 5vw, 3.4rem); margin-bottom: 1.2rem; }
+  .svc-block__desc { font-size: 1.1rem; color: var(--color-ink); max-width: 44ch; margin-bottom: 1.8rem; line-height: 1.5; }
+  .svc-block__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .svc-block__items li { padding-left: 1.4rem; position: relative; color: var(--color-stone); }
+  .svc-block__items li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 0.5rem; height: 0.5rem; background: var(--color-terra); }
+
+  .approach { background: var(--color-ink); color: var(--color-paper); }
+  .approach__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .approach__head .eyebrow { display: block; margin-bottom: 1rem; color: var(--color-stone-light); }
+  .approach__grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  @media (min-width: 700px) { .approach__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1050px) { .approach__grid { grid-template-columns: repeat(4, 1fr); } }
+  .approach__item { border-top: 1px solid rgba(250,248,245,0.2); padding-top: 1.5rem; }
+  .approach__item h3 { font-family: var(--font-head); font-weight: 700; font-size: 1.4rem; margin-bottom: 0.8rem; }
+  .approach__item p { color: var(--color-stone-light); font-size: 0.98rem; }
+
+  .svc-cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+</style>

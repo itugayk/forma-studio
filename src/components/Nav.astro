@@ -1,0 +1,193 @@
+---
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+  { href: '/projeler', label: 'Projeler' },
+  { href: '/hizmetler', label: 'Hizmetler' },
+  { href: '/studyo', label: 'Stüdyo' },
+  { href: '/surec', label: 'Süreç' },
+  { href: '/iletisim', label: 'İletişim' },
+];
+const isActive = (href) => path === href || path.startsWith(href + '/');
+---
+
+<header class="nav" data-nav>
+  <div class="nav-inner u-container">
+    <a class="nav-logo" href="/" aria-label="Forma Studio ana sayfa">
+      Forma<span>Studio</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Ana menü">
+      {
+        links.map((l) => (
+          <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="nav-overlay">
+      <span class="nav-toggle__label">Menü</span>
+      <span class="nav-toggle__bars"><i></i><i></i></span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-overlay" id="nav-overlay" data-nav-overlay aria-hidden="true">
+  <div class="nav-overlay__inner u-container">
+    <span class="nav-overlay__eyebrow eyebrow">Forma Studio — Menü</span>
+    <ul class="nav-overlay__list">
+      {
+        links.map((l, i) => (
+          <li style={`--i:${i}`}>
+            <a href={l.href} class="nav-overlay__link" data-cursor="Aç">
+              <span>{l.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="nav-overlay__foot">
+      <a href="mailto:merhaba@formastudio.com">merhaba@formastudio.com</a>
+      <a href="tel:+902120000000">+90 212 000 00 00</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    padding-block: clamp(1rem, 2.2vw, 1.6rem);
+    mix-blend-mode: difference;
+    transition: padding 0.4s var(--ease-out-expo);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .nav-logo {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+  }
+  .nav-logo span {
+    font-weight: 300;
+    opacity: 0.7;
+    margin-left: 0.35em;
+  }
+  .nav-links {
+    display: none;
+    gap: clamp(1.4rem, 2.4vw, 2.8rem);
+  }
+  @media (min-width: 900px) {
+    .nav-links { display: flex; }
+    .nav-toggle { display: none; }
+  }
+  .nav-link {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+    padding-block: 0.2rem;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-link.active::after { transform: scaleX(1); }
+
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0;
+  }
+  .nav-toggle__bars {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 26px;
+  }
+  .nav-toggle__bars i {
+    height: 1.5px;
+    width: 100%;
+    background: #fff;
+    transition: transform 0.4s var(--ease-out-expo), opacity 0.3s;
+  }
+
+  /* overlay */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    display: flex;
+    align-items: center;
+    clip-path: inset(0 0 100% 0);
+    pointer-events: none;
+    transition: clip-path 0.7s var(--ease-out-expo);
+  }
+  .nav-overlay.open {
+    clip-path: inset(0 0 0% 0);
+    pointer-events: auto;
+  }
+  .nav-overlay__inner { width: 100%; }
+  .nav-overlay__eyebrow { display: block; margin-bottom: 2.5rem; color: var(--color-stone-light); }
+  .nav-overlay__list { list-style: none; margin: 0; padding: 0; }
+  .nav-overlay__link {
+    display: inline-block;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(2.6rem, 11vw, 6rem);
+    line-height: 1.04;
+    color: var(--color-paper);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo), color 0.3s;
+    transition-delay: calc(var(--i) * 0.05s + 0.15s);
+  }
+  .nav-overlay.open .nav-overlay__link { opacity: 1; transform: translateY(0); }
+  .nav-overlay__link:hover { color: var(--color-terra); }
+  .nav-overlay__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    margin-top: 3rem;
+    font-size: 0.95rem;
+    color: var(--color-stone-light);
+  }
+  .nav-overlay__foot a:hover { color: var(--color-paper); }
+
+  body.nav-open .nav-toggle__bars i:first-child { transform: translateY(3.25px) rotate(45deg); }
+  body.nav-open .nav-toggle__bars i:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+</style>

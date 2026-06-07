@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+
+const team = [
+  { name: 'Deniz Aksoy', role: 'Kurucu, Mimar', img: '/images/p-15.jpg' },
+  { name: 'Selin Yürek', role: 'İç Mimari Direktörü', img: '/images/p-14.jpg' },
+  { name: 'Mert Çağlar', role: 'Proje Mimarı', img: '/images/p-13.jpg' },
+  { name: 'Ada Pamir', role: 'Tasarım Stratejisti', img: '/images/p-18.jpg' },
+];
+
+const values = [
+  { no: '01', t: 'Sadelik', d: 'Karmaşıklığı çözer, özü bırakırız.' },
+  { no: '02', t: 'Dürüstlük', d: 'Malzeme ne ise odur; taklit yoktur.' },
+  { no: '03', t: 'Bağlam', d: 'Her yapı bulunduğu yere ait olmalıdır.' },
+  { no: '04', t: 'Süreklilik', d: 'İyi tasarım moda değil, zaman üstüdür.' },
+];
+---
+
+<Base
+  title="Stüdyo — Forma Studio"
+  description="Forma Studio; İstanbul merkezli, 2012'den bu yana minimalist ve insan ölçekli mimarlık üreten bir tasarım ofisidir."
+>
+  <section class="page-hero u-container">
+    <span class="eyebrow" data-reveal="up">Stüdyo — İstanbul, 2012'den beri</span>
+    <h1 class="page-title" data-reveal="lines">Forma</h1>
+  </section>
+
+  <!-- intro statement -->
+  <section class="sec st-intro">
+    <div class="u-container st-intro__grid">
+      <p class="lead-lg st-statement" data-reveal="words-scrub">
+        Forma Studio, mimariyi bir gösteri değil; ışığın, oranın ve malzemenin
+        sessiz bir diyaloğu olarak görür. İstanbul'dan, ölçeği değişse de dili
+        değişmeyen mekânlar üretiriz.
+      </p>
+      <div class="st-intro__side" data-reveal="up">
+        <p>
+          2012'de tek bir masada kurulduk; bugün konuttan ticari mekana,
+          butik iç tasarımdan kentsel ölçeğe uzanan bir portföye sahibiz.
+          Her projeye, orada yaşayacak hayatı dinleyerek başlarız.
+        </p>
+        <Button href="/projeler" label="Projeleri gör" variant="dark" cursor="Gör" />
+      </div>
+    </div>
+  </section>
+
+  <!-- big image -->
+  <section class="u-container">
+    <figure class="st-feature reveal-media" data-reveal="img">
+      <img src="/images/p-11.jpg" alt="Forma Studio çalışma anlayışı" loading="lazy" width="1600" height="1067" />
+    </figure>
+  </section>
+
+  <!-- values -->
+  <section class="sec st-values">
+    <div class="u-container">
+      <header class="st-values__head">
+        <span class="eyebrow" data-reveal="up">Değerler</span>
+        <h2 class="sec-title" data-reveal="lines">İnandığımız şeyler</h2>
+      </header>
+      <ul class="st-values__list">
+        {
+          values.map((v) => (
+            <li class="val" data-reveal="up">
+              <span class="val__no display">{v.no}</span>
+              <h3 class="val__t">{v.t}</h3>
+              <p class="val__d">{v.d}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- team -->
+  <section class="sec st-team">
+    <div class="u-container">
+      <header class="st-team__head">
+        <span class="eyebrow" data-reveal="up">Ekip</span>
+        <h2 class="sec-title" data-reveal="lines">Arkadaki eller</h2>
+      </header>
+      <div class="st-team__grid">
+        {
+          team.map((m) => (
+            <figure class="member" data-reveal="up">
+              <div class="member__img reveal-media" data-reveal="img">
+                <img src={m.img} alt={m.name} loading="lazy" width="1600" height="1067" />
+              </div>
+              <figcaption>
+                <span class="member__name">{m.name}</span>
+                <span class="member__role">{m.role}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .st-intro__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); }
+  @media (min-width: 950px) { .st-intro__grid { grid-template-columns: 1.5fr 1fr; align-items: start; } }
+  .st-statement { max-width: 24ch; margin: 0; font-family: var(--font-head); font-weight: 500; font-size: clamp(1.6rem, 4vw, 3.2rem); line-height: 1.18; }
+  .st-intro__side { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; }
+  .st-intro__side p { color: var(--color-stone); max-width: 42ch; }
+
+  .st-feature { aspect-ratio: 16 / 9; overflow: hidden; }
+  .st-feature img { width: 100%; height: 100%; object-fit: cover; }
+
+  .st-values { background: var(--color-paper-deep); }
+  .st-values__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .st-values__head .eyebrow { display: block; margin-bottom: 1rem; }
+  .st-values__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  @media (min-width: 700px) { .st-values__list { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1050px) { .st-values__list { grid-template-columns: repeat(4, 1fr); } }
+  .val { border-top: 1px solid rgba(13,13,12,0.18); padding-top: 1.5rem; }
+  .val__no { display: block; font-size: 2rem; color: var(--color-terra); margin-bottom: 1rem; }
+  .val__t { font-family: var(--font-head); font-weight: 700; font-size: 1.6rem; margin-bottom: 0.6rem; }
+  .val__d { color: var(--color-stone); }
+
+  .st-team__head { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .st-team__head .eyebrow { display: block; margin-bottom: 1rem; }
+  .st-team__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 3rem); }
+  @media (min-width: 850px) { .st-team__grid { grid-template-columns: repeat(4, 1fr); } }
+  .member__img { aspect-ratio: 3 / 4; overflow: hidden; margin-bottom: 1rem; }
+  .member__img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.4); transition: filter 0.6s; }
+  .member:hover .member__img img { filter: grayscale(0); }
+  .member__name { display: block; font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; }
+  .member__role { display: block; color: var(--color-stone); font-size: 0.9rem; margin-top: 0.2rem; }
+</style>

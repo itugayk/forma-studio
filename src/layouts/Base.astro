@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+
+const {
+  title = 'Forma Studio — Mimarlık & İç Tasarım',
+  description = 'Forma Studio; konut, ticari ve iç mekan projelerinde minimalist, sanatsal ve insan ölçekli mimarlık üreten bir tasarım ofisidir.',
+  image = '/images/p-01.jpg',
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://mimarlik.demo.dijifa.com';
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mimarlik.demo.dijifa.com').toString();
+const ogImage = image.startsWith('http') ? image : site + image;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Forma Studio',
+  description,
+  image: ogImage,
+  url: site,
+  '@id': site,
+  telephone: '+90 212 000 00 00',
+  email: 'merhaba@formastudio.com',
+  priceRange: '$$$',
+  areaServed: 'TR',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Karaköy, Kemankeş Cd. No:12',
+    addressLocality: 'İstanbul',
+    addressCountry: 'TR',
+  },
+  knowsAbout: ['Mimari Tasarım', 'İç Mimari', 'Tasarım Danışmanlığı'],
+  sameAs: [
+    'https://www.instagram.com/',
+    'https://www.linkedin.com/',
+    'https://www.behance.net/',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Forma Studio" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta name="theme-color" content="#faf8f5" />
+    <ClientRouter />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <!-- kalıcı: swap'lerde silinmez -->
+    <div class="cursor-root" aria-hidden="true" transition:persist="cursor">
+      <div class="cursor-dot"></div>
+      <div class="cursor-ring"><span class="cursor-label"></span></div>
+    </div>
+    <div class="page-transition" aria-hidden="true" transition:persist="wipe">
+      <span class="page-transition__mark">FORMA</span>
+    </div>
+
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/site.js';
+    </script>
+  </body>
+</html>

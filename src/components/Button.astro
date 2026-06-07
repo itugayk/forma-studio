@@ -1,0 +1,89 @@
+---
+const {
+  href = '#',
+  label,
+  variant = 'dark', // dark | light | outline
+  cursor,
+  arrow = true,
+  external = false,
+  ...rest
+} = Astro.props;
+const ext = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn--${variant}`]}
+  data-magnetic="0.35"
+  data-cursor={cursor}
+  {...ext}
+  {...rest}
+>
+  <span class="btn__inner">
+    <span class="btn__label">{label}</span>
+    {
+      arrow && (
+        <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" />
+        </svg>
+      )
+    }
+  </span>
+
+  <style>
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 1rem 1.8rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1;
+      will-change: transform;
+      transition: background-color 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo),
+        border-color 0.4s var(--ease-out-expo);
+    }
+    .btn__inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .btn__arrow {
+      width: 1.05rem;
+      height: 1.05rem;
+      transition: transform 0.45s var(--ease-out-expo);
+    }
+    .btn:hover .btn__arrow {
+      transform: translateX(0.3rem);
+    }
+
+    .btn--dark {
+      background: var(--color-ink);
+      color: var(--color-paper);
+    }
+    .btn--dark:hover {
+      background: var(--color-terra);
+    }
+    .btn--light {
+      background: var(--color-paper);
+      color: var(--color-ink);
+    }
+    .btn--light:hover {
+      background: var(--color-terra);
+      color: var(--color-paper);
+    }
+    .btn--outline {
+      background: transparent;
+      color: currentColor;
+      border: 1px solid currentColor;
+    }
+    .btn--outline:hover {
+      background: var(--color-ink);
+      color: var(--color-paper);
+      border-color: var(--color-ink);
+    }
+  </style>
+</a>
